@@ -7,7 +7,6 @@ import com.spellit.audio.AudioManager
 import com.spellit.domain.model.AppSettings
 import com.spellit.domain.model.GameMode
 import com.spellit.domain.model.GameSession
-import com.spellit.domain.model.GameConfig
 import com.spellit.domain.model.ScoreCalculator
 import com.spellit.domain.model.Word
 import com.spellit.domain.model.WordResult
@@ -89,7 +88,7 @@ class GameViewModel @Inject constructor(
     fun startGame(playerName: String) {
         if (_uiState.value.phase == GamePhase.PLAYING) return
         viewModelScope.launch {
-            val words = getRandomWords(GameConfig.WORDS_PER_ROUND, mode == GameMode.EASY)
+            val words = getRandomWords(settings.wordsPerSession, mode == GameMode.EASY)
             _uiState.value = _uiState.value.copy(
                 phase = GamePhase.PLAYING,
                 mode = mode,

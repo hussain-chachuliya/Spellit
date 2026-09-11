@@ -131,6 +131,7 @@ private fun GameSession.toEntity(): SessionEntity {
 private fun SettingsEntity.toDomain() = AppSettings(
     id = id,
     adminPin = adminPin,
+    wordsPerSession = wordsPerSession,
     easyTimerSeconds = easyTimerSeconds,
     mediumTimerSeconds = mediumTimerSeconds,
     hardTimerSeconds = hardTimerSeconds,
@@ -142,6 +143,7 @@ private fun SettingsEntity.toDomain() = AppSettings(
 private fun AppSettings.toEntity() = SettingsEntity(
     id = 0,
     adminPin = adminPin,
+    wordsPerSession = wordsPerSession,
     easyTimerSeconds = easyTimerSeconds,
     mediumTimerSeconds = mediumTimerSeconds,
     hardTimerSeconds = hardTimerSeconds,

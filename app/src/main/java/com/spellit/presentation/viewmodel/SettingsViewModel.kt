@@ -66,6 +66,11 @@ class SettingsViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(pendingPin = digitsOnly, savedMessage = false)
     }
 
+    fun onWordsPerSessionChange(count: Int) {
+        val s = _uiState.value.settings
+        _uiState.value = _uiState.value.copy(settings = s.copy(wordsPerSession = count.coerceIn(1, 50)), savedMessage = false)
+    }
+
     fun save() {
         val state = _uiState.value
         val pin = if (state.pendingPin.length == 4) state.pendingPin else state.settings.adminPin

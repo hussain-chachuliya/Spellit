@@ -82,7 +82,7 @@ fun ModeSelectScreen(
                 color = MaterialTheme.colorScheme.errorContainer
             ) {
                 Text(
-                    text = "⚠️ Ask a grown-up to add at least 10 words in the admin area first!",
+                    text = "⚠️ Ask a grown-up to add at least ${state.settings.wordsPerSession} words in the admin area first!",
                     color = MaterialTheme.colorScheme.onErrorContainer,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(16.dp)
@@ -98,7 +98,7 @@ fun ModeSelectScreen(
                     icon = Icons.Filled.Sort,
                     color = GrassGreen,
                     enabled = state.easyEnabled,
-                    disabledReason = "Need ${ModeSelectViewModel.MIN_WORDS_TO_PLAY} words with 9+ letters (${state.longWordCount} available)",
+                    disabledReason = "Need ${state.settings.wordsPerSession} words with 9+ letters (${state.longWordCount} available)",
                     timerSeconds = state.settings.easyTimerSeconds,
                     timerVisible = state.settings.easyTimerVisible,
                     onPick = { onPick(GameMode.EASY) }
