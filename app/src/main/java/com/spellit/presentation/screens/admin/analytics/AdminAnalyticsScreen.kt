@@ -340,12 +340,20 @@ private fun AdminSessionDetailOverlay(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text("${index + 1}.", fontWeight = FontWeight.Bold, color = DeepBlue, modifier = Modifier.padding(end = 8.dp))
-                        Text(
-                            text = result.spelling,
-                            fontWeight = FontWeight.SemiBold,
-                            color = if (result.correct) GrassGreen else CoralRed,
-                            modifier = Modifier.weight(1f)
-                        )
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                text = result.spelling,
+                                fontWeight = FontWeight.SemiBold,
+                                color = if (result.correct) GrassGreen else CoralRed
+                            )
+                            if (!result.correct && result.kidSpelling.isNotBlank()) {
+                                Text(
+                                    text = "You wrote: ${result.kidSpelling}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
                         Text(
                             text = if (result.correct) "✔" else "✘",
                             color = if (result.correct) GrassGreen else CoralRed,

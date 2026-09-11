@@ -48,15 +48,11 @@ class ModeSelectViewModel @Inject constructor(
                     settings = settings,
                     totalWords = total,
                     longWordCount = long,
-                    canPlay = total >= MIN_WORDS_TO_PLAY,
-                    easyEnabled = long >= MIN_WORDS_TO_PLAY,
+                    canPlay = total >= settings.wordsPerSession,
+                    easyEnabled = long >= settings.wordsPerSession,
                     loading = false
                 )
             }
         }
-    }
-
-    companion object {
-        const val MIN_WORDS_TO_PLAY = 10
     }
 }

@@ -62,6 +62,32 @@ fun SettingsScreen() {
 
         Spacer(Modifier.height(14.dp))
 
+        Surface(shape = RoundedCornerShape(20.dp), color = PaleGreen) {
+            Column(Modifier.padding(16.dp)) {
+                Text("Words Per Session", fontWeight = FontWeight.Bold, color = DeepBlue, fontSize = 16.sp)
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = state.settings.wordsPerSession.toString(),
+                    onValueChange = { input ->
+                        val value = input.filter { it.isDigit() }.toIntOrNull() ?: 10
+                        vm.onWordsPerSessionChange(value)
+                    },
+                    singleLine = true,
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                )
+                Text(
+                    text = "How many words per game session (1–50). Default is 10.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = DeepBlue
+                )
+            }
+        }
+
+        Spacer(Modifier.height(14.dp))
+
         ModeTimerRow(
             mode = GameMode.EASY,
             seconds = state.settings.easyTimerSeconds,

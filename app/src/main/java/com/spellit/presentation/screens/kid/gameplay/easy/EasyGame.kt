@@ -10,12 +10,15 @@ import com.spellit.presentation.screens.kid.gameplay.TileDropBoard
  * them into order to rebuild it. No letter tiles are shown.
  */
 @Composable
-fun EasyGame(word: String, onSubmit: (Boolean) -> Unit) {
+fun EasyGame(word: String, onSubmit: (Boolean, String) -> Unit) {
     val chunks = remember(word) { WordChunker.chunkIntoThree(word) }
     val scrambled = remember(word) { chunks.shuffled() }
     TileDropBoard(
         tiles = scrambled,
         chunkMode = true,
-        onComplete = { result -> onSubmit(result.replace(" ", "").equals(word, ignoreCase = true)) }
+        onComplete = { result ->
+            val kidSpelling = result.replace(" ", "")
+            onSubmit(kidSpelling.equals(word, ignoreCase = true), kidSpelling)
+        }
     )
 }

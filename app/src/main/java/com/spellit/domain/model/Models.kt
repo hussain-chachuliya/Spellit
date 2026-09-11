@@ -20,6 +20,7 @@ data class WordResult(
     val wordId: Long,
     val spelling: String,
     val correct: Boolean,
+    val kidSpelling: String = "",
     val remainingTimeMillis: Long? = null,
     val answeredAtMillis: Long = System.currentTimeMillis()
 ) {
@@ -41,6 +42,7 @@ data class GameSession(
 data class AppSettings(
     val id: Int = 0,
     val adminPin: String = "1234",
+    val wordsPerSession: Int = 10,
     val easyTimerSeconds: Int = 0,
     val mediumTimerSeconds: Int = 0,
     val hardTimerSeconds: Int = 0,

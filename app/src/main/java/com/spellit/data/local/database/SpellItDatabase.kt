@@ -11,7 +11,7 @@ import com.spellit.data.local.entity.WordEntity
 
 @Database(
     entities = [WordEntity::class, SessionEntity::class, SettingsEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class SpellItDatabase : RoomDatabase() {

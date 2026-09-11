@@ -268,12 +268,22 @@ private fun SessionDetailOverlay(session: GameSession, onDismiss: () -> Unit) {
                             fontWeight = FontWeight.Bold,
                             color = DeepBlue
                         )
-                        Text(
-                            text = result.spelling,
-                            fontWeight = FontWeight.SemiBold,
-                            color = if (result.correct) GrassGreen else MaterialTheme.colorScheme.error,
+                        Column(
                             modifier = Modifier.weight(1f)
-                        )
+                        ) {
+                            Text(
+                                text = result.spelling,
+                                fontWeight = FontWeight.SemiBold,
+                                color = if (result.correct) GrassGreen else MaterialTheme.colorScheme.error
+                            )
+                            if (!result.correct && result.kidSpelling.isNotBlank()) {
+                                Text(
+                                    text = "You wrote: ${result.kidSpelling}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
                         Text(
                             text = if (result.correct) "✔ Correct" else "✘ Wrong",
                             color = if (result.correct) GrassGreen else MaterialTheme.colorScheme.error,

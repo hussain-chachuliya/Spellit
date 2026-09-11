@@ -89,7 +89,8 @@ private fun WordEntity.toDomain() = Word(id = id, spelling = spelling, audioFile
 private data class StoredResult(
     val wordId: Long,
     val spelling: String,
-    val correct: Boolean
+    val correct: Boolean,
+    val kidSpelling: String = ""
 )
 
 @kotlinx.serialization.Serializable
@@ -102,7 +103,7 @@ private fun SessionEntity.toDomain(): GameSession {
     val stored = runCatching { Json.decodeFromString(StoredResults.serializer(), resultsJson) }
         .getOrDefault(StoredResults(emptyList()))
     val results = stored.results.map {
-        WordResult(wordId = it.wordId, spelling = it.spelling, correct = it.correct)
+        WordResult(wordId = it.wordId, spelling = it.spelling, correct = it.correct, kidSpelling = it.kidSpelling)
     }
     return GameSession(
         id = id,
@@ -116,7 +117,7 @@ private fun SessionEntity.toDomain(): GameSession {
 
 private fun GameSession.toEntity(): SessionEntity {
     val stored = StoredResults(
-        results = results.map { StoredResult(it.wordId, it.spelling, it.correct) }
+        results = results.map { StoredResult(it.wordId, it.spelling, it.correct, it.kidSpelling) }
     )
     return SessionEntity(
         id = id,
@@ -131,6 +132,7 @@ private fun GameSession.toEntity(): SessionEntity {
 private fun SettingsEntity.toDomain() = AppSettings(
     id = id,
     adminPin = adminPin,
+    wordsPerSession = wordsPerSession,
     easyTimerSeconds = easyTimerSeconds,
     mediumTimerSeconds = mediumTimerSeconds,
     hardTimerSeconds = hardTimerSeconds,
@@ -142,6 +144,7 @@ private fun SettingsEntity.toDomain() = AppSettings(
 private fun AppSettings.toEntity() = SettingsEntity(
     id = 0,
     adminPin = adminPin,
+    wordsPerSession = wordsPerSession,
     easyTimerSeconds = easyTimerSeconds,
     mediumTimerSeconds = mediumTimerSeconds,
     hardTimerSeconds = hardTimerSeconds,

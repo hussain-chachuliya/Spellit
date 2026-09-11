@@ -1,5 +1,6 @@
 package com.spellit.presentation.screens.kid.gameplay
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -96,6 +97,7 @@ private fun tileSizeFor(chunkMode: Boolean, boardWidth: Dp, boardHeight: Dp, til
  * child drags or taps them into the slots at the top. When every slot is
  * filled, [onComplete] is invoked with the reconstructed string.
  */
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TileDropBoard(

@@ -7,7 +7,6 @@ import com.spellit.audio.AudioManager
 import com.spellit.domain.model.AppSettings
 import com.spellit.domain.model.GameMode
 import com.spellit.domain.model.GameSession
-import com.spellit.domain.model.GameConfig
 import com.spellit.domain.model.ScoreCalculator
 import com.spellit.domain.model.Word
 import com.spellit.domain.model.WordResult
@@ -28,7 +27,7 @@ enum class GamePhase { LOADING, PLAYING, FINISHED }
 
 sealed class WordFeedback {
     data class Correct(val word: String) : WordFeedback()
-    data class Wrong(val word: String) : WordFeedback()
+    data class Wrong(val word: String, val kidSpelling: String) : WordFeedback()
 }
 
 data class FinishSummary(
@@ -89,7 +88,7 @@ class GameViewModel @Inject constructor(
     fun startGame(playerName: String) {
         if (_uiState.value.phase == GamePhase.PLAYING) return
         viewModelScope.launch {
-            val words = getRandomWords(GameConfig.WORDS_PER_ROUND, mode == GameMode.EASY)
+            val words = getRandomWords(settings.wordsPerSession, mode == GameMode.EASY)
             _uiState.value = _uiState.value.copy(
                 phase = GamePhase.PLAYING,
                 mode = mode,
@@ -123,6 +122,7 @@ class GameViewModel @Inject constructor(
             totalTimeMillis = baseTimerMillis,
             normalMode = true
         )
+        playCurrentAudio()
         startTimerIfNeeded()
     }
 
@@ -165,7 +165,7 @@ class GameViewModel @Inject constructor(
      * hard mode) may be submitted directly; wrong answers reveal the correct
      * spelling before moving on.
      */
-    fun submitAnswer(correct: Boolean, timedOut: Boolean = false) {
+    fun submitAnswer(correct: Boolean, kidSpelling: String = "", timedOut: Boolean = false) {
         val state = _uiState.value
         val word = state.currentWord ?: return
         if (state.phase != GamePhase.PLAYING) return
@@ -181,6 +181,7 @@ class GameViewModel @Inject constructor(
             wordId = word.id,
             spelling = word.spelling,
             correct = correct,
+            kidSpelling = kidSpelling,
             remainingTimeMillis = remaining
         )
         val newResults = state.results + result
@@ -200,7 +201,7 @@ class GameViewModel @Inject constructor(
             )
         } else {
             _uiState.value = _uiState.value.copy(
-                feedback = WordFeedback.Wrong(word.spelling)
+                feedback = WordFeedback.Wrong(word.spelling, kidSpelling)
             )
         }
     }
