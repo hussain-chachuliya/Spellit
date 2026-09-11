@@ -9,11 +9,11 @@ import com.spellit.presentation.screens.kid.gameplay.TileDropBoard
  * Medium mode: every letter is jumbled and the child arranges the letter tiles.
  */
 @Composable
-fun MediumGame(word: String, onSubmit: (Boolean) -> Unit) {
+fun MediumGame(word: String, onSubmit: (Boolean, String) -> Unit) {
     val letters = remember(word) { WordChunker.scrambleLetters(word).map { it.toString() } }
     TileDropBoard(
         tiles = letters,
         chunkMode = false,
-        onComplete = { result -> onSubmit(result.equals(word, ignoreCase = true)) }
+        onComplete = { result -> onSubmit(result.equals(word, ignoreCase = true), result) }
     )
 }

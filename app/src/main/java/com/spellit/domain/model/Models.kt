@@ -20,6 +20,7 @@ data class WordResult(
     val wordId: Long,
     val spelling: String,
     val correct: Boolean,
+    val kidSpelling: String = "",
     val remainingTimeMillis: Long? = null,
     val answeredAtMillis: Long = System.currentTimeMillis()
 ) {

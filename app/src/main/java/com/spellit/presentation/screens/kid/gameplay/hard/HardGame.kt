@@ -35,7 +35,7 @@ import com.spellit.presentation.theme.DeepBlue
  * (auto-played) and types the spelling on the keyboard.
  */
 @Composable
-fun HardGame(word: String, onSubmit: (Boolean) -> Unit) {
+fun HardGame(word: String, onSubmit: (Boolean, String) -> Unit) {
     key(word) {
         var text by remember { mutableStateOf("") }
         val focusRequester = remember { FocusRequester() }
@@ -74,7 +74,7 @@ fun HardGame(word: String, onSubmit: (Boolean) -> Unit) {
             val clean = text.trim()
             KidButton(
                 text = if (clean.isEmpty()) "Type a word first" else "Check it! ✓",
-                onClick = { onSubmit(clean.equals(word, ignoreCase = true)) },
+                onClick = { onSubmit(clean.equals(word, ignoreCase = true), clean) },
                 color = BubblePink,
                 enabled = clean.isNotEmpty()
             )

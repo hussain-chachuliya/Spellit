@@ -27,7 +27,7 @@ enum class GamePhase { LOADING, PLAYING, FINISHED }
 
 sealed class WordFeedback {
     data class Correct(val word: String) : WordFeedback()
-    data class Wrong(val word: String) : WordFeedback()
+    data class Wrong(val word: String, val kidSpelling: String) : WordFeedback()
 }
 
 data class FinishSummary(
@@ -165,7 +165,7 @@ class GameViewModel @Inject constructor(
      * hard mode) may be submitted directly; wrong answers reveal the correct
      * spelling before moving on.
      */
-    fun submitAnswer(correct: Boolean, timedOut: Boolean = false) {
+    fun submitAnswer(correct: Boolean, kidSpelling: String = "", timedOut: Boolean = false) {
         val state = _uiState.value
         val word = state.currentWord ?: return
         if (state.phase != GamePhase.PLAYING) return
@@ -181,6 +181,7 @@ class GameViewModel @Inject constructor(
             wordId = word.id,
             spelling = word.spelling,
             correct = correct,
+            kidSpelling = kidSpelling,
             remainingTimeMillis = remaining
         )
         val newResults = state.results + result
@@ -200,7 +201,7 @@ class GameViewModel @Inject constructor(
             )
         } else {
             _uiState.value = _uiState.value.copy(
-                feedback = WordFeedback.Wrong(word.spelling)
+                feedback = WordFeedback.Wrong(word.spelling, kidSpelling)
             )
         }
     }
