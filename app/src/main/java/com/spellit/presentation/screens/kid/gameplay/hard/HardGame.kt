@@ -35,12 +35,11 @@ import com.spellit.presentation.theme.DeepBlue
  * (auto-played) and types the spelling on the keyboard.
  */
 @Composable
-fun HardGame(word: String, onPlayAudio: () -> Unit, onSubmit: (Boolean) -> Unit) {
+fun HardGame(word: String, onSubmit: (Boolean) -> Unit) {
     key(word) {
         var text by remember { mutableStateOf("") }
         val focusRequester = remember { FocusRequester() }
         LaunchedEffect(word) {
-            onPlayAudio()
             focusRequester.requestFocus()
         }
         Column(

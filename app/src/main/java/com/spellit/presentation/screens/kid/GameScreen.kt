@@ -184,7 +184,7 @@ private fun PlayingView(
                     when (state.mode) {
                         GameMode.EASY -> EasyGame(word.spelling, onSubmit)
                         GameMode.MEDIUM -> MediumGame(word.spelling, onSubmit)
-                        GameMode.HARD -> HardGame(word.spelling, onPlayAudio, onSubmit)
+                        GameMode.HARD -> HardGame(word.spelling, onSubmit)
                     }
                 }
             } else {

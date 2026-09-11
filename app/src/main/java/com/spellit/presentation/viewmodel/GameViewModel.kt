@@ -122,6 +122,7 @@ class GameViewModel @Inject constructor(
             totalTimeMillis = baseTimerMillis,
             normalMode = true
         )
+        playCurrentAudio()
         startTimerIfNeeded()
     }
 
